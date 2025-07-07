@@ -3,7 +3,7 @@ services:
     name: medusa-backend
     env: node
     plan: free
-    buildCommand: yarn install && yarn build
+    buildCommand: yarn install && yarn build && npx medusa migrations run
     startCommand: yarn start
     envVars:
       - key: NODE_ENV
