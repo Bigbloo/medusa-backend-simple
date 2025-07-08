@@ -25,8 +25,8 @@ npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà exist
 # Construire l'admin si nécessaire
 echo "🏗️ Vérification et construction de l'admin..."
 if [ ! -f ".medusa/admin/index.html" ]; then
-    echo "📱 Construction de l'interface admin..."
-    NODE_OPTIONS="--max-old-space-size=4096" npx medusa build --admin-only || echo "⚠️ Build admin échoué, continuons sans admin"
+    echo "📱 Construction de l'interface admin avec mémoire limitée..."
+    timeout 300 NODE_OPTIONS="--max-old-space-size=1024" npx medusa build --admin-only || echo "⚠️ Build admin échoué (mémoire insuffisante), continuons avec API seulement"
 fi
 
 # Démarrer le serveur
