@@ -24,4 +24,4 @@ npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà exist
 
 # Démarrer le serveur
 echo "🎯 Démarrage du serveur Medusa..."
-exec npx medusa start
+exec npx medusa start --host 0.0.0.0 --port $PORT
