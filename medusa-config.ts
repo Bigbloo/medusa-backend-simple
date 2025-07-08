@@ -6,9 +6,9 @@ module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
     http: {
-      storeCors: process.env.STORE_CORS!,
-      adminCors: process.env.ADMIN_CORS!,
-      authCors: process.env.AUTH_CORS!,
+      storeCors: process.env.STORE_CORS || "http://localhost:8000,https://bigtest-storefront.vercel.app",
+      adminCors: process.env.ADMIN_CORS || "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app",
+      authCors: process.env.AUTH_CORS || "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app",
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     }
@@ -16,8 +16,15 @@ module.exports = defineConfig({
   admin: {
     disable: false,
   },
-  modules: {
-    payment: {
+  modules: [
+    {
+      resolve: "@medusajs/admin",
+      options: {
+        serve: true,
+        path: "/admin",
+      },
+    },
+    {
       resolve: "@medusajs/payment",
       options: {
         providers: [
@@ -32,5 +39,5 @@ module.exports = defineConfig({
         ],
       },
     },
-  },
+  ],
 })

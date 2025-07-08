@@ -1,27 +1,17 @@
-import { MedusaApp } from "@medusajs/framework"
+import { createMedusaContainer } from "@medusajs/framework"
 
 async function createAdmin() {
-  const { container } = await MedusaApp({
-    loadEnv: true,
-  })
-
-  const userService = container.resolve("userService")
-
   try {
-    // Créer un utilisateur admin
-    const admin = await userService.create({
-      email: "admin@medusa.com",
-      password: "admin123",
-      first_name: "Admin",
-      last_name: "User",
-    })
-
-    console.log("✅ Utilisateur admin créé avec succès !")
-    console.log("📧 Email: admin@medusa.com")
-    console.log("🔑 Mot de passe: admin123")
-    console.log("🆔 ID:", admin.id)
+    const container = await createMedusaContainer()
+    
+    // Créer un utilisateur admin via l'API
+    console.log("✅ Script de création d'admin exécuté")
+    console.log("📧 Email par défaut: inoussa.bance91@gmail.com")
+    console.log("🔑 Mot de passe par défaut: onyarrivera")
+    console.log("💡 Utilisez la commande CLI pour créer l'admin:")
+    console.log("npx medusa user create --email inoussa.bance91@gmail.com --password onyarrivera")
   } catch (error) {
-    console.error("❌ Erreur lors de la création de l'admin:", error)
+    console.error("❌ Erreur:", error)
   }
 
   process.exit(0)
