@@ -10,9 +10,9 @@ COPY package*.json ./
 
 # Installer les dépendances avec npm (plus stable)
 RUN npm config set registry https://registry.npmjs.org/ && \
-    npm install --timeout=300000 || \
-    (sleep 10 && npm install --timeout=300000) || \
-    (sleep 20 && npm install --timeout=300000 --force)
+    npm install --legacy-peer-deps --timeout=300000 || \
+    (sleep 10 && npm install --legacy-peer-deps --timeout=300000) || \
+    (sleep 20 && npm install --legacy-peer-deps --timeout=300000 --force)
 
 # Copier le code source
 COPY . .
