@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script de démarrage pour Medusa sur Railway
-echo "🚀 Démarrage de Medusa..."
+echo "🚀 Démarrage de Medusa v2..."
 
 # Afficher les variables d'environnement importantes
 echo "📋 Variables d'environnement:"
