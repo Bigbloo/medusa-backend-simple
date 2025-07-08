@@ -8,7 +8,7 @@ cmds = ['yarn install']
 cmds = ['yarn build']
 
 [start]
-cmd = 'yarn start'
+cmd = './start.sh'
 
 [variables]
 NODE_ENV = 'production'
