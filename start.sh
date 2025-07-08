@@ -15,12 +15,12 @@ echo "⏳ Attente de la base de données..."
 sleep 15
 
 # Forcer l'exécution des migrations
-echo "🔄 Exécution forcée des migrations..."
-npx medusa db:migrate --force || echo "⚠️ Migrations échouées, continuons..."
+echo "🔄 Exécution des migrations..."
+npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 
-# Vérifier si les tables existent maintenant
-echo "🔍 Vérification des tables..."
-npx medusa db:migrate --dry-run || echo "⚠️ Vérification échouée"
+# Créer un utilisateur admin si nécessaire
+echo "� Création de l'utilisateur admin..."
+npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà existant ou erreur"
 
 # Démarrer le serveur
 echo "🎯 Démarrage du serveur Medusa..."
