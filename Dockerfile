@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Installer bash pour notre script
 RUN apk add --no-cache bash
