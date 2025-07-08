@@ -3,8 +3,8 @@ services:
     name: medusa-backend
     env: node
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: chmod +x start.sh && ./start.sh
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: chmod +x start-render.sh && ./start-render.sh
     envVars:
       - key: NODE_ENV
         value: production
@@ -15,9 +15,13 @@ services:
       - key: STORE_CORS
         value: "http://localhost:8000,https://bigtest-storefront.vercel.app"
       - key: ADMIN_CORS
-        value: "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app"
+        value: "http://localhost:7001,http://localhost:9000"
       - key: AUTH_CORS
-        value: "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app"
+        value: "http://localhost:7001,http://localhost:9000"
+      - key: MEDUSA_ADMIN_ONBOARDING_TYPE
+        value: "default"
+      - key: MEDUSA_ADMIN_ONBOARDING_FLOW
+        value: "default"
     disk:
       name: medusa-disk
       mountPath: /opt/render/project/src
