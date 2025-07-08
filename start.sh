@@ -18,8 +18,12 @@ sleep 15
 echo "🔄 Exécution des migrations..."
 npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 
+# Construire l'interface admin
+echo "🏗️ Construction de l'interface admin..."
+npx medusa build --admin || echo "⚠️ Build admin échoué, continuons..."
+
 # Créer un utilisateur admin si nécessaire
-echo "� Création de l'utilisateur admin..."
+echo "👤 Création de l'utilisateur admin..."
 npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà existant ou erreur"
 
 # Démarrer le serveur
