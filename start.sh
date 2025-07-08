@@ -24,9 +24,19 @@ npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà exist
 
 # Construire l'admin si nécessaire
 echo "🏗️ Tentative de construction de l'interface admin..."
-mkdir -p .medusa/admin
 
-# Créer l'interface admin dans le répertoire que Medusa attend
+# Essayer de faire le build admin complet d'abord
+echo "🔨 Tentative de build admin complet..."
+NODE_OPTIONS="--max-old-space-size=2048" npx medusa build --admin-only || echo "⚠️ Build admin échoué, utilisation du fallback"
+
+# Créer les répertoires de fallback
+mkdir -p .medusa/admin
+mkdir -p .medusa/admin-build
+mkdir -p build/admin
+mkdir -p dist/admin
+mkdir -p admin
+
+# Créer l'interface admin dans tous les répertoires possibles
 cat > .medusa/admin/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="fr">
@@ -77,7 +87,13 @@ cat > .medusa/admin/index.html << 'EOF'
 </html>
 EOF
 
-echo "✅ Interface admin temporaire créée"
+# Copier le fichier dans tous les autres répertoires possibles
+cp .medusa/admin/index.html .medusa/admin-build/index.html 2>/dev/null || true
+cp .medusa/admin/index.html build/admin/index.html 2>/dev/null || true
+cp .medusa/admin/index.html dist/admin/index.html 2>/dev/null || true
+cp .medusa/admin/index.html admin/index.html 2>/dev/null || true
+
+echo "✅ Interface admin temporaire créée dans tous les répertoires possibles"
 
 # Ignorer le build admin pour éviter les problèmes de mémoire
 echo "⚠️ Build admin ignoré pour éviter les problèmes de mémoire - utilisation de l'interface temporaire"

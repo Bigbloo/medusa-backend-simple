@@ -17,9 +17,9 @@ RUN npm config set registry https://registry.npmjs.org/ && \
 # Copier le code source
 COPY . .
 
-# Build du backend seulement d'abord
-RUN echo "🏗️ Build du backend..." && \
-    NODE_OPTIONS="--max-old-space-size=1024" npm run build:backend || npm run build || echo "⚠️ Build backend échoué"
+# Build complet incluant l'admin
+RUN echo "🏗️ Build complet de Medusa..." && \
+    NODE_OPTIONS="--max-old-space-size=2048" npm run build || echo "⚠️ Build échoué, continuons..."
 
 # Créer le dossier admin avec un index.html minimal
 RUN mkdir -p .medusa/admin && \
