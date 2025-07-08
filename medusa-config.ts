@@ -4,10 +4,10 @@ loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
 module.exports = defineConfig({
   projectConfig: {
-    databaseUrl: process.env.DATABASE_URL,
-    databaseDriverOptions: {
-      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-    },
+    databaseUrl: process.env.DATABASE_URL + (process.env.NODE_ENV === 'production' ? '?sslmode=require' : ''),
+    databaseDriverOptions: process.env.NODE_ENV === 'production' ? {
+      ssl: { rejectUnauthorized: false }
+    } : {},
     http: {
       storeCors: process.env.STORE_CORS || "http://localhost:8000,https://bigtest-storefront.vercel.app",
       adminCors: process.env.ADMIN_CORS || "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app",
