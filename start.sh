@@ -1,7 +1,8 @@
 #!/bin/bash
+set -e
 
 # Script de démarrage pour Medusa sur Railway
-echo "🚀 Démarrage de Medusa v3..."
+echo "🚀 Démarrage de Medusa v4..."
 
 # Afficher les variables d'environnement importantes
 echo "📋 Variables d'environnement:"
@@ -11,12 +12,16 @@ echo "DATABASE_URL: ${DATABASE_URL:0:30}..."
 
 # Attendre que la base de données soit disponible
 echo "⏳ Attente de la base de données..."
-sleep 10
+sleep 15
 
-# Exécuter les migrations
-echo "🔄 Exécution des migrations..."
-./migrate.sh
+# Forcer l'exécution des migrations
+echo "🔄 Exécution forcée des migrations..."
+npx medusa db:migrate --force || echo "⚠️ Migrations échouées, continuons..."
+
+# Vérifier si les tables existent maintenant
+echo "🔍 Vérification des tables..."
+npx medusa db:migrate --dry-run || echo "⚠️ Vérification échouée"
 
 # Démarrer le serveur
 echo "🎯 Démarrage du serveur Medusa..."
-npx medusa start
+exec npx medusa start
