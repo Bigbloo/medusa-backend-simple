@@ -1,9 +1,7 @@
-import { createMedusaContainer } from "@medusajs/framework"
+import { MedusaContainer } from "@medusajs/framework"
 
 async function createAdmin() {
   try {
-    const container = await createMedusaContainer()
-    
     // Créer un utilisateur admin via l'API
     console.log("✅ Script de création d'admin exécuté")
     console.log("📧 Email par défaut: inoussa.bance91@gmail.com")
