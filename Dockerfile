@@ -16,10 +16,11 @@ COPY . .
 
 # Build de l'application avec plus de mémoire pour l'admin
 RUN echo "🏗️ Démarrage du build avec plus de mémoire..." && \
-    NODE_OPTIONS="--max-old-space-size=2048" yarn build && \
+    NODE_OPTIONS="--max-old-space-size=4096" yarn build && \
     echo "✅ Build terminé, vérification des fichiers..." && \
     ls -la .medusa/ || echo "⚠️ Dossier .medusa non trouvé" && \
-    ls -la .medusa/admin/ || echo "⚠️ Dossier admin non trouvé"
+    ls -la .medusa/admin/ || echo "⚠️ Dossier admin non trouvé" && \
+    find .medusa -name "index.html" || echo "⚠️ index.html non trouvé"
 
 # Rendre le script de démarrage exécutable
 RUN chmod +x start.sh
