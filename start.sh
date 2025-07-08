@@ -22,6 +22,13 @@ npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 echo "👤 Création de l'utilisateur admin..."
 npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà existant ou erreur"
 
+# Construire l'admin si nécessaire
+echo "🏗️ Vérification et construction de l'admin..."
+if [ ! -f ".medusa/admin/index.html" ]; then
+    echo "📱 Construction de l'interface admin..."
+    NODE_OPTIONS="--max-old-space-size=4096" npx medusa build --admin-only || echo "⚠️ Build admin échoué, continuons sans admin"
+fi
+
 # Démarrer le serveur
 echo "🎯 Démarrage du serveur Medusa..."
 exec npx medusa start --host 0.0.0.0 --port $PORT
