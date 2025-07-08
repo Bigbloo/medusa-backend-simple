@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: medusa-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: chmod +x start.sh && ./start.sh
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: COOKIE_SECRET
+        generateValue: true
+      - key: STORE_CORS
+        value: "http://localhost:8000,https://bigtest-storefront.vercel.app"
+      - key: ADMIN_CORS
+        value: "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app"
+      - key: AUTH_CORS
+        value: "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app"
+    disk:
+      name: medusa-disk
+      mountPath: /opt/render/project/src
+      sizeGB: 1
+
+databases:
+  - name: medusa-postgres
+    plan: free
+    databaseName: medusa
+    user: medusa
