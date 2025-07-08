@@ -20,7 +20,7 @@ npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 
 # Construire l'interface admin
 echo "🏗️ Construction de l'interface admin..."
-npx medusa build --admin || echo "⚠️ Build admin échoué, continuons..."
+npx medusa build --admin-only || echo "⚠️ Build admin échoué, continuons..."
 
 # Créer un utilisateur admin si nécessaire
 echo "👤 Création de l'utilisateur admin..."
