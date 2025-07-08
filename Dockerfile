@@ -6,21 +6,20 @@ RUN apk add --no-cache bash
 WORKDIR /app
 
 # Copier les fichiers de dépendances
-COPY package*.json yarn.lock ./
+COPY package*.json ./
 
-# Installer les dépendances avec retry et timeout optimisés
-RUN yarn config set network-timeout 300000 && \
-    yarn config set registry https://registry.npmjs.org/ && \
-    yarn install --network-timeout 300000 --frozen-lockfile || \
-    (sleep 10 && yarn install --network-timeout 300000 --frozen-lockfile) || \
-    (sleep 20 && yarn install --network-timeout 300000 --frozen-lockfile)
+# Installer les dépendances avec npm (plus stable)
+RUN npm config set registry https://registry.npmjs.org/ && \
+    npm install --timeout=300000 || \
+    (sleep 10 && npm install --timeout=300000) || \
+    (sleep 20 && npm install --timeout=300000 --force)
 
 # Copier le code source
 COPY . .
 
 # Build du backend seulement d'abord
 RUN echo "🏗️ Build du backend..." && \
-    NODE_OPTIONS="--max-old-space-size=1024" yarn build:backend || yarn build || echo "⚠️ Build backend échoué"
+    NODE_OPTIONS="--max-old-space-size=1024" npm run build:backend || npm run build || echo "⚠️ Build backend échoué"
 
 # Créer le dossier admin-build avec un index.html minimal
 RUN mkdir -p .medusa/admin-build && \
