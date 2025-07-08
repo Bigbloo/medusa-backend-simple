@@ -21,11 +21,11 @@ npm install @rollup/rollup-linux-x64-musl --save-dev --legacy-peer-deps || echo 
 
 # Build de l'interface admin Medusa avec gestion d'erreur
 echo "🎨 Construction de l'interface admin Medusa..."
-if NODE_OPTIONS="--max-old-space-size=2048" npx medusa build --admin-only; then
+if NODE_OPTIONS="--max-old-space-size=256" npx medusa build --admin-only; then
     echo "✅ Interface admin Medusa buildée avec succès !"
 else
-    echo "⚠️ Build admin échoué, tentative de build simple..."
-    if NODE_OPTIONS="--max-old-space-size=1024" npx medusa build; then
+    echo "⚠️ Build admin échoué, utilisation de l'interface temporaire..."
+    if false; then
         echo "✅ Build simple réussi !"
     else
         echo "🔧 Création de l'interface admin de fallback..."
@@ -65,4 +65,4 @@ fi
 
 # Démarrer le serveur avec l'interface admin
 echo "🎯 Démarrage du serveur Medusa avec Admin UI..."
-exec npx medusa start --host 0.0.0.0 --port $PORT
+exec NODE_OPTIONS="--max-old-space-size=256" npx medusa start --host 0.0.0.0 --port $PORT
