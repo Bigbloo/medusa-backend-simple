@@ -18,13 +18,6 @@ module.exports = defineConfig({
   },
   modules: [
     {
-      resolve: "@medusajs/admin",
-      options: {
-        serve: true,
-        path: "/admin",
-      },
-    },
-    {
       resolve: "@medusajs/payment",
       options: {
         providers: [
