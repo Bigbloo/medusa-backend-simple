@@ -79,9 +79,8 @@ EOF
 
 echo "✅ Interface admin temporaire créée"
 
-# Tentative de build de l'admin complet (optionnel)
-echo "📱 Tentative de build admin complet (peut échouer)..."
-NODE_OPTIONS="--max-old-space-size=512" timeout 120 npx medusa build --admin-only 2>/dev/null && echo "✅ Admin complet construit avec succès !" || echo "⚠️ Build admin échoué, utilisation de l'interface temporaire"
+# Ignorer le build admin pour éviter les problèmes de mémoire
+echo "⚠️ Build admin ignoré pour éviter les problèmes de mémoire - utilisation de l'interface temporaire"
 
 # Démarrer le serveur
 echo "🎯 Démarrage du serveur Medusa..."
