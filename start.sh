@@ -22,9 +22,12 @@ npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 echo "👤 Création de l'utilisateur admin..."
 npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà existant ou erreur"
 
-# Construire l'admin si nécessaire (désactivé temporairement pour stabilité)
-echo "🏗️ Admin temporairement désactivé pour garantir la stabilité de l'API..."
-echo "📱 L'API backend sera pleinement opérationnelle sans interface admin"
+# Construire l'admin si nécessaire
+echo "🏗️ Tentative de construction de l'interface admin..."
+if [ ! -f ".medusa/admin/index.html" ] || [ "$(cat .medusa/admin/index.html | grep 'Admin Loading')" ]; then
+    echo "📱 Construction de l'interface admin (tentative légère)..."
+    NODE_OPTIONS="--max-old-space-size=512" timeout 180 npx medusa build --admin-only 2>/dev/null || echo "⚠️ Build admin échoué, utilisation de l'interface temporaire"
+fi
 
 # Démarrer le serveur
 echo "🎯 Démarrage du serveur Medusa..."
