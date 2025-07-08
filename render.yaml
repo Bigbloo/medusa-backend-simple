@@ -3,7 +3,7 @@ services:
     name: medusa-backend
     env: node
     plan: free
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    buildCommand: npm install --legacy-peer-deps
     startCommand: chmod +x start-render.sh && ./start-render.sh
     envVars:
       - key: NODE_ENV
@@ -12,19 +12,21 @@ services:
         generateValue: true
       - key: COOKIE_SECRET
         generateValue: true
+      - key: MEDUSA_BACKEND_URL
+        value: "https://medusa-backend.onrender.com"
       - key: STORE_CORS
-        value: "http://localhost:8000,https://bigtest-storefront.vercel.app"
+        value: "http://localhost:8000,https://bigtest-storefront.vercel.app,https://medusa-backend.onrender.com"
       - key: ADMIN_CORS
-        value: "http://localhost:7001,http://localhost:9000"
+        value: "http://localhost:7001,http://localhost:9000,https://medusa-backend.onrender.com"
       - key: AUTH_CORS
-        value: "http://localhost:7001,http://localhost:9000"
+        value: "http://localhost:7001,http://localhost:9000,https://medusa-backend.onrender.com"
       - key: MEDUSA_ADMIN_ONBOARDING_TYPE
         value: "default"
       - key: MEDUSA_ADMIN_ONBOARDING_FLOW
         value: "default"
     disk:
       name: medusa-disk
-      mountPath: /opt/render/project/src
+      mountPath: /app/uploads
       sizeGB: 1
 
 databases:

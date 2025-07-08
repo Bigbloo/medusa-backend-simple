@@ -21,9 +21,9 @@ RUN npm install @rollup/rollup-linux-x64-musl --save-dev --legacy-peer-deps || e
 # Copier le code source
 COPY . .
 
-# Build complet incluant l'admin
-RUN echo "🏗️ Build complet de Medusa..." && \
-    NODE_OPTIONS="--max-old-space-size=2048" npm run build || echo "⚠️ Build échoué, continuons..."
+# Build optimisé pour Render (mémoire limitée)
+RUN echo "🏗️ Build optimisé de Medusa..." && \
+    NODE_OPTIONS="--max-old-space-size=256" npm run build || echo "⚠️ Build échoué, continuons..."
 
 # Créer le dossier admin avec un index.html minimal
 RUN mkdir -p .medusa/admin && \
