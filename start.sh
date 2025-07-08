@@ -24,10 +24,10 @@ npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà exist
 
 # Construire l'admin si nécessaire
 echo "🏗️ Tentative de construction de l'interface admin..."
-mkdir -p .medusa/admin-build
+mkdir -p .medusa/admin
 
-# Créer l'interface admin dans le répertoire de build
-cat > .medusa/admin-build/index.html << 'EOF'
+# Créer l'interface admin dans le répertoire que Medusa attend
+cat > .medusa/admin/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="fr">
 <head>
