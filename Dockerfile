@@ -26,7 +26,7 @@ RUN mkdir -p .medusa/admin && \
     echo "✅ Répertoires créés - le build se fera au runtime avec plus de mémoire"
 
 # Rendre le script de démarrage exécutable
-RUN chmod +x start.sh
+RUN chmod +x start.sh start-api-only.sh
 
 # Créer un script pour les migrations
 RUN echo '#!/bin/bash\necho "🔄 Exécution des migrations..."\nnpx medusa db:migrate\necho "✅ Migrations terminées"' > migrate.sh && chmod +x migrate.sh
@@ -35,4 +35,4 @@ RUN echo '#!/bin/bash\necho "🔄 Exécution des migrations..."\nnpx medusa db:m
 EXPOSE 9000
 
 # Utiliser notre script de démarrage
-CMD ["bash", "./start.sh"]
+CMD ["bash", "./start-api-only.sh"]
