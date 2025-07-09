@@ -23,7 +23,7 @@ echo "👤 L'utilisateur admin peut être créé via l'interface /admin"
 
 # Construire l'interface admin native de Medusa avec plus de mémoire
 echo "�️ Construction de l'interface admin native de Medusa..."
-NODE_OPTIONS="--max-old-space-size=1024" npx medusa build --admin-only || echo "⚠️ Build admin échoué, l'interface sera générée au démarrage"
+NODE_OPTIONS="--max-old-space-size=2048" npx medusa build --admin-only || echo "⚠️ Build admin échoué, l'interface sera générée au démarrage"
 
 # Démarrer le serveur
 echo "🎯 Démarrage du serveur Medusa..."
