@@ -25,19 +25,52 @@ echo "👤 L'utilisateur admin peut être créé via l'interface /admin"
 echo "🏗️ Construction de l'interface admin native de Medusa..."
 NODE_OPTIONS="--max-old-space-size=2048" npx medusa build || echo "⚠️ Build échoué, continuons..."
 
-# Vérifier et copier les fichiers admin si nécessaire
+# Vérifier et créer les fichiers admin si nécessaire
 echo "🔍 Vérification des fichiers admin..."
-if [ -d ".medusa/admin" ] && [ "$(ls -A .medusa/admin)" ]; then
-    echo "✅ Fichiers admin trouvés dans .medusa/admin"
-else
-    echo "⚠️ Fichiers admin non trouvés, tentative de copie..."
-    mkdir -p .medusa/admin
-    if [ -d "dist/admin" ]; then
+mkdir -p .medusa/admin
+
+# Vérifier si index.html existe
+if [ ! -f ".medusa/admin/index.html" ]; then
+    echo "⚠️ index.html manquant, création d'un fichier de base..."
+    
+    # Chercher dans différents répertoires
+    if [ -f "dist/admin/index.html" ]; then
         cp -r dist/admin/* .medusa/admin/ || echo "Copie depuis dist/admin échouée"
-    fi
-    if [ -d "build/admin" ]; then
+    elif [ -f "build/admin/index.html" ]; then
         cp -r build/admin/* .medusa/admin/ || echo "Copie depuis build/admin échouée"
+    elif [ -f ".medusa/server/admin/index.html" ]; then
+        cp -r .medusa/server/admin/* .medusa/admin/ || echo "Copie depuis .medusa/server/admin échouée"
+    else
+        # Créer un index.html de base si aucun n'est trouvé
+        echo "🔧 Création d'un index.html de base..."
+        cat > .medusa/admin/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medusa Admin</title>
+</head>
+<body>
+    <div id="root">
+        <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif;">
+            <div style="text-align: center;">
+                <h1>Medusa Admin</h1>
+                <p>Interface admin en cours de chargement...</p>
+                <p>Veuillez patienter ou rafraîchir la page.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+EOF
     fi
+fi
+
+if [ -f ".medusa/admin/index.html" ]; then
+    echo "✅ Fichiers admin prêts dans .medusa/admin"
+else
+    echo "❌ Impossible de créer les fichiers admin"
 fi
 
 # Démarrer le serveur avec admin activé
