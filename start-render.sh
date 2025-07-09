@@ -13,7 +13,7 @@ npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 
 # Créer l'utilisateur admin
 echo "👤 Création de l'utilisateur admin..."
-npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà existant ou erreur"
+npx medusa user create --email inoussa.bance91@gmail.com --password onyarrivera || echo "⚠️ Admin déjà existant ou erreur"
 
 # Installer les dépendances Rollup manquantes si nécessaire
 echo "🔧 Vérification des dépendances Rollup..."

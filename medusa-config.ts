@@ -13,8 +13,8 @@ module.exports = defineConfig({
     } : {},
     http: {
       storeCors: process.env.STORE_CORS || "http://localhost:8000,https://bigtest-storefront.vercel.app",
-      adminCors: process.env.ADMIN_CORS || "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app",
-      authCors: process.env.AUTH_CORS || "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app",
+      adminCors: process.env.ADMIN_CORS || "http://localhost:7001,http://localhost:9000",
+      authCors: process.env.AUTH_CORS || "http://localhost:7001,http://localhost:9000",
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     }
