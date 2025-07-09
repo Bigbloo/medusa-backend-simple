@@ -11,11 +11,7 @@ sleep 15
 echo "🔄 Exécution des migrations..."
 npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 
-# Désactiver l'admin via variable d'environnement
-echo "🔧 Configuration API uniquement..."
-export MEDUSA_ADMIN_DISABLE=true
-
-echo "✅ Admin désactivé via variable d'environnement"
+echo "🔧 Admin désactivé dans medusa-config.ts"
 
 # Démarrer le serveur API uniquement
 echo "🎯 Démarrage du serveur Medusa (API UNIQUEMENT)..."
