@@ -35,4 +35,4 @@ RUN echo '#!/bin/bash\necho "🔄 Exécution des migrations..."\nnpx medusa db:m
 EXPOSE 9000
 
 # Utiliser notre script de démarrage
-CMD ["bash", "./start-api-only.sh"]
+CMD ["bash", "./start.sh"]
