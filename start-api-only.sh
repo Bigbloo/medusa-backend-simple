@@ -49,4 +49,5 @@ echo "✅ Configuration API créée"
 
 # Démarrer le serveur API uniquement avec la config modifiée
 echo "🎯 Démarrage du serveur Medusa (API UNIQUEMENT)..."
-exec NODE_OPTIONS="--max-old-space-size=256" npx medusa start --config medusa-config-api-only.js --host 0.0.0.0 --port $PORT
+export NODE_OPTIONS="--max-old-space-size=256"
+exec npx medusa start --config medusa-config-api-only.js --host 0.0.0.0 --port $PORT
