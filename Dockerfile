@@ -21,14 +21,9 @@ RUN npm install @rollup/rollup-linux-x64-musl --save-dev --legacy-peer-deps || e
 # Copier le code source
 COPY . .
 
-# Build optimisé pour Render (mémoire limitée)
-RUN echo "🏗️ Build optimisé de Medusa..." && \
-    NODE_OPTIONS="--max-old-space-size=256" npm run build || echo "⚠️ Build échoué, continuons..."
-
-# Créer le dossier admin avec un index.html minimal
+# Créer les répertoires nécessaires (le build se fera au runtime)
 RUN mkdir -p .medusa/admin && \
-    echo '<!DOCTYPE html><html><head><title>Admin Loading...</title></head><body><h1>Admin Interface Loading...</h1><script>setTimeout(() => window.location.reload(), 3000);</script></body></html>' > .medusa/admin/index.html && \
-    echo "✅ Interface admin temporaire créée"
+    echo "✅ Répertoires créés - le build se fera au runtime avec plus de mémoire"
 
 # Rendre le script de démarrage exécutable
 RUN chmod +x start.sh
