@@ -20,7 +20,8 @@ module.exports = defineConfig({
     }
   },
   admin: {
-    disable: false,
+    enable: true,
+    path: "/admin"
   },
   modules: [
     {

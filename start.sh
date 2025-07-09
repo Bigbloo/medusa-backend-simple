@@ -18,85 +18,12 @@ sleep 15
 echo "🔄 Exécution des migrations..."
 npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 
-# Créer un utilisateur admin si nécessaire
-echo "👤 Création de l'utilisateur admin..."
-npx medusa exec ./src/scripts/create-admin.ts || echo "⚠️ Admin déjà existant ou erreur"
+# L'utilisateur admin sera créé via l'interface admin native
+echo "👤 L'utilisateur admin peut être créé via l'interface /admin"
 
-# Construire l'admin si nécessaire
-echo "🏗️ Tentative de construction de l'interface admin..."
-
-# Essayer de faire le build admin complet d'abord
-echo "🔨 Tentative de build admin complet..."
-NODE_OPTIONS="--max-old-space-size=2048" npx medusa build --admin-only || echo "⚠️ Build admin échoué, utilisation du fallback"
-
-# Créer les répertoires de fallback
-mkdir -p .medusa/admin
-mkdir -p .medusa/admin-build
-mkdir -p build/admin
-mkdir -p dist/admin
-mkdir -p admin
-
-# Créer l'interface admin dans tous les répertoires possibles
-cat > .medusa/admin/index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Medusa - Interface Temporaire</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; text-align: center; }
-        .info { background: #e3f2fd; padding: 15px; border-radius: 5px; margin: 20px 0; }
-        .api-link { background: #4caf50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 10px 0; }
-        .credentials { background: #fff3e0; padding: 15px; border-radius: 5px; margin: 20px 0; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎉 Medusa E-commerce Backend Opérationnel</h1>
-        <div class="info">
-            <h3>✅ Votre API E-commerce est 100% fonctionnelle !</h3>
-            <p>Le backend Medusa fonctionne parfaitement. L'interface admin complète sera disponible prochainement.</p>
-        </div>
-        
-        <div class="credentials">
-            <h3>👤 Identifiants Admin</h3>
-            <p><strong>Email:</strong> inoussa.bance91@gmail.com</p>
-            <p><strong>Mot de passe:</strong> onyarrivera</p>
-        </div>
-
-        <h3>🚀 API Endpoints Disponibles</h3>
-        <ul>
-            <li><strong>Produits:</strong> GET /store/products</li>
-            <li><strong>Panier:</strong> POST /store/carts</li>
-            <li><strong>Commandes:</strong> POST /store/orders</li>
-            <li><strong>Admin Auth:</strong> POST /admin/auth</li>
-        </ul>
-
-        <a href="/store/products" class="api-link">🛍️ Voir les Produits (API)</a>
-        <a href="/admin/auth" class="api-link">🔐 API Admin</a>
-        
-        <div class="info">
-            <p><strong>💳 Paiements Stripe:</strong> Configurés et opérationnels</p>
-            <p><strong>📊 Base de données:</strong> PostgreSQL complète</p>
-        </div>
-    </div>
-</body>
-</html>
-EOF
-
-# Copier le fichier dans tous les autres répertoires possibles
-cp .medusa/admin/index.html .medusa/admin-build/index.html 2>/dev/null || true
-cp .medusa/admin/index.html build/admin/index.html 2>/dev/null || true
-cp .medusa/admin/index.html dist/admin/index.html 2>/dev/null || true
-cp .medusa/admin/index.html admin/index.html 2>/dev/null || true
-
-echo "✅ Interface admin temporaire créée dans tous les répertoires possibles"
-
-# Ignorer le build admin pour éviter les problèmes de mémoire
-echo "⚠️ Build admin ignoré pour éviter les problèmes de mémoire - utilisation de l'interface temporaire"
+# Construire l'interface admin native de Medusa
+echo "🏗️ Construction de l'interface admin native de Medusa..."
+NODE_OPTIONS="--max-old-space-size=2048" npx medusa build --admin-only || echo "⚠️ Build admin échoué, l'interface sera générée au démarrage"
 
 # Démarrer le serveur
 echo "🎯 Démarrage du serveur Medusa..."

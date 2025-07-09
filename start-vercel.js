@@ -1,19 +1,14 @@
-const { createMedusaContainer } = require('@medusajs/framework');
-const { MedusaModule } = require('@medusajs/framework/modules-sdk');
+const { Medusa } = require('@medusajs/framework');
 
-let app;
+let medusaApp;
 
 async function initializeMedusa() {
-  if (!app) {
+  if (!medusaApp) {
     console.log('🚀 Initialisation de Medusa pour Vercel...');
     
     try {
-      // Créer le container Medusa
-      const container = createMedusaContainer();
-      
-      // Initialiser les modules
-      await MedusaModule.bootstrap({
-        databaseUrl: process.env.DATABASE_URL,
+      // Créer l'application Medusa
+      medusaApp = await Medusa({
         projectConfig: {
           databaseUrl: process.env.DATABASE_URL,
           http: {
@@ -22,41 +17,12 @@ async function initializeMedusa() {
             authCors: process.env.AUTH_CORS || "http://localhost:7001,http://localhost:9000,https://medusa-admin-vercel.vercel.app",
             jwtSecret: process.env.JWT_SECRET || "supersecret",
             cookieSecret: process.env.COOKIE_SECRET || "supersecret",
+          },
+          admin: {
+            enable: true,
+            path: "/admin"
           }
         }
-      });
-      
-      // Créer l'application Express
-      const express = require('express');
-      app = express();
-      
-      // Middleware de base
-      app.use(express.json());
-      app.use(express.urlencoded({ extended: true }));
-      
-      // Route de santé
-      app.get('/health', (req, res) => {
-        res.json({ status: 'OK', message: 'Medusa is running on Vercel' });
-      });
-      
-      // Route principale
-      app.get('/', (req, res) => {
-        res.json({ 
-          message: 'Medusa Backend API',
-          admin: '/admin',
-          store: '/store',
-          health: '/health'
-        });
-      });
-      
-      // Routes admin
-      app.get('/admin', (req, res) => {
-        res.json({ message: 'Admin interface', status: 'available' });
-      });
-      
-      // Routes store
-      app.get('/store', (req, res) => {
-        res.json({ message: 'Store API', status: 'available' });
       });
       
       console.log('✅ Medusa initialisé avec succès');
@@ -67,7 +33,7 @@ async function initializeMedusa() {
     }
   }
   
-  return app;
+  return medusaApp;
 }
 
 // Export pour Vercel
