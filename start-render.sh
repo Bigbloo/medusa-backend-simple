@@ -16,8 +16,7 @@ echo "🔧 Vérification des dépendances Rollup..."
 npm install @rollup/rollup-linux-x64-musl --save-dev --legacy-peer-deps || echo "Rollup déjà installé"
 
 # Désactiver l'admin dans la configuration
-echo "🔧 Désactivation de l'admin pour éviter les problèmes de mémoire..."
-sed -i 's/enable: true/disable: true/g' medusa-config.ts || sed -i.bak 's/enable: true/disable: true/g' medusa-config.ts
+node disable-admin.js
 
 # Démarrer le serveur API uniquement
 echo "🎯 Démarrage du serveur Medusa (API uniquement)..."
