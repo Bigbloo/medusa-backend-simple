@@ -22,7 +22,7 @@ npx medusa db:migrate || echo "⚠️ Migrations échouées, continuons..."
 echo "👤 L'utilisateur admin peut être créé via l'interface /admin"
 
 # Construire l'interface admin native de Medusa avec plus de mémoire
-echo "🏗️ Construction de l'interface admin native de Medusa..."
+echo "�️ Construction de l'interface admin native de Medusa..."
 NODE_OPTIONS="--max-old-space-size=1024" npx medusa build --admin-only || echo "⚠️ Build admin échoué, l'interface sera générée au démarrage"
 
 # Démarrer le serveur

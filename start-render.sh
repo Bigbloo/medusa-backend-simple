@@ -18,10 +18,14 @@ echo "👤 L'utilisateur admin peut être créé via l'interface /admin"
 echo "🔧 Vérification des dépendances Rollup..."
 npm install @rollup/rollup-linux-x64-musl --save-dev --legacy-peer-deps || echo "Rollup déjà installé"
 
-# Build de l'interface admin native de Medusa avec plus de mémoire
-echo "🎨 Construction de l'interface admin native de Medusa..."
-NODE_OPTIONS="--max-old-space-size=512" npx medusa build --admin-only || echo "⚠️ Build admin échoué, l'interface sera générée au démarrage"
+# Démarrer le serveur immédiatement pour éviter le timeout Render
+echo "🎯 Démarrage du serveur Medusa..."
+NODE_OPTIONS="--max-old-space-size=256" npx medusa start --host 0.0.0.0 --port $PORT &
+SERVER_PID=$!
 
-# Démarrer le serveur avec l'interface admin
-echo "🎯 Démarrage du serveur Medusa avec Admin UI..."
-exec NODE_OPTIONS="--max-old-space-size=256" npx medusa start --host 0.0.0.0 --port $PORT
+# Build de l'interface admin optimisé en arrière-plan
+echo "🎨 Construction optimisée de l'interface admin..."
+set -a && source .env.build && set +a && npm run build:admin:fast || echo "⚠️ Build admin échoué, l'interface sera générée au démarrage" &
+
+# Attendre le serveur principal
+wait $SERVER_PID
